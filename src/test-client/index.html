@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Client</title>
+</head>
+<body>
+    <pre id="result">Chargement...</pre>
+
+    <script>
+        const resultEl = document.getElementById('result');
+        const apiUrl = window.location.protocol.startsWith('http')
+            ? '/products'
+            : 'http://localhost:3000/products';
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                resultEl.textContent = `Erreur : ${error.message}`;
+                console.error(error);
+            });
+    </script>
+</body>
+</html>
